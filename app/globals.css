@@ -1,0 +1,197 @@
+@import 'tailwindcss';
+
+:root {
+  --background: #0a0e27;
+  --foreground: #f5f7fa;
+  --card: #1a1f3a;
+  --card-foreground: #f5f7fa;
+  --popover: #1a1f3a;
+  --popover-foreground: #f5f7fa;
+  --primary: #dc2626;
+  --primary-foreground: #f5f7fa;
+  --secondary: #2d3748;
+  --secondary-foreground: #f5f7fa;
+  --muted: #4a5568;
+  --muted-foreground: #a0aec0;
+  --accent: #ef4444;
+  --accent-foreground: #0a0e27;
+  --destructive: #dc2626;
+  --destructive-foreground: #f5f7fa;
+  --border: #2d3748;
+  --input: #1a1f3a;
+  --ring: #dc2626;
+  --chart-1: #dc2626;
+  --chart-2: #ef4444;
+  --chart-3: #fca5a5;
+  --chart-4: #2d3748;
+  --chart-5: #4a5568;
+  --radius: 0.625rem;
+  --sidebar: #0f1422;
+  --sidebar-foreground: #f5f7fa;
+  --sidebar-primary: #dc2626;
+  --sidebar-primary-foreground: #f5f7fa;
+  --sidebar-accent: #ef4444;
+  --sidebar-accent-foreground: #0a0e27;
+  --sidebar-border: #2d3748;
+  --sidebar-ring: #dc2626;
+}
+
+.dark {
+  --background: #0a0e27;
+  --foreground: #f5f7fa;
+  --card: #1a1f3a;
+  --card-foreground: #f5f7fa;
+  --popover: #1a1f3a;
+  --popover-foreground: #f5f7fa;
+  --primary: #dc2626;
+  --primary-foreground: #f5f7fa;
+  --secondary: #2d3748;
+  --secondary-foreground: #f5f7fa;
+  --muted: #4a5568;
+  --muted-foreground: #a0aec0;
+  --accent: #ef4444;
+  --accent-foreground: #0a0e27;
+  --destructive: #dc2626;
+  --destructive-foreground: #f5f7fa;
+  --border: #2d3748;
+  --input: #1a1f3a;
+  --ring: #dc2626;
+  --chart-1: #dc2626;
+  --chart-2: #ef4444;
+  --chart-3: #fca5a5;
+  --chart-4: #2d3748;
+  --chart-5: #4a5568;
+  --sidebar: #0f1422;
+  --sidebar-foreground: #f5f7fa;
+  --sidebar-primary: #dc2626;
+  --sidebar-primary-foreground: #f5f7fa;
+  --sidebar-accent: #ef4444;
+  --sidebar-accent-foreground: #0a0e27;
+  --sidebar-border: #2d3748;
+  --sidebar-ring: #dc2626;
+}
+
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Dark Luxury Theme Styles */
+@layer components {
+  /* Glassmorphism effect */
+  .glassmorphism {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl;
+  }
+
+  /* Glow effect for elements */
+  .glow-red {
+    @apply shadow-lg shadow-red-600/20;
+  }
+
+  .glow-red-lg {
+    @apply shadow-2xl shadow-red-600/40;
+  }
+
+  /* Cursor glow effect */
+  .cursor-glow {
+    cursor: radial-gradient(circle at var(--cursor-x, 0) var(--cursor-y, 0), rgba(220, 38, 38, 0.3) 0%, transparent 50%);
+  }
+
+  /* Smooth animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+
+  /* Particle effect */
+  .particle {
+    @apply absolute rounded-full pointer-events-none;
+  }
+
+  .particle-red {
+    @apply bg-red-500;
+  }
+
+  .particle-dark {
+    @apply bg-gray-700;
+  }
+}

@@ -1,0 +1,3 @@
+import Link from 'next/link'
+import { Navbar } from '@/components/navbar'
+export default function MyTicketsPage(){return <main className="min-h-screen bg-[#080A07] px-5 pb-20 pt-36 text-white"><Navbar/><div className="mx-auto max-w-2xl"><p className="text-xs font-black uppercase tracking-widest text-[#CEFF50]">STATIC / GUEST INFORMATION</p><h1 className="mt-6 text-4xl font-black uppercase">Entry codes are shared directly.</h1><p className="mt-6 leading-8 text-white/60">The STATIC team manages your payment and entry code manually. Contact the organizer for your code.</p><Link className="mt-8 inline-block bg-[#CEFF50] px-6 py-4 font-black text-black" href="/tickets">Guest registration ↗</Link></div></main>}

@@ -1,0 +1,37 @@
+/* Raat Baaki: midnight pool / marigold / warm brass */
+:root{--raat-gold:#CEFF50;--raat-bg:#080A07;--raat-panel:#11160F}
+html{scroll-behavior:smooth}body{background:var(--raat-bg);color:#F5F6EE}
+.raat-page{min-height:100vh;background:radial-gradient(ellipse at 90% 5%,#6c342a35,transparent 55%),#080A07;color:#F5F6EE;position:relative}
+.raat-wrap{max-width:1320px;margin:auto;padding:140px 24px 80px;position:relative}
+.raat-page h1{font-family:Georgia,serif;font-size:clamp(3.5rem,8vw,7rem);line-height:1.05;margin:12px 0 24px;letter-spacing:-.045em;color:#CEFF50}
+.raat-page h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:750;line-height:1.2;margin:14px 0}
+.raat-page p{line-height:1.8;margin:12px 0}.raat-kicker{font-size:11px;font-weight:800;letter-spacing:.22em;color:#CEFF50}
+.raat-muted{font-size:13px;color:#A3A3A3;overflow-wrap:anywhere}.raat-card{background:linear-gradient(130deg,#1B2119,#10140F);border:1px solid #CEFF5030;border-radius:20px;padding:28px;margin:22px 0;overflow-wrap:anywhere}
+.raat-card hr{border:0;border-top:1px solid #CEFF5030;margin:24px 0}.raat-price{font-family:Georgia,serif;font-size:40px;color:#CEFF50}.raat-columns{display:grid;grid-template-columns: .8fr 1.3fr;gap:30px;align-items:start}.raat-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:22px 0}.raat-wide{grid-column:1/-1}
+.raat-form label{display:flex;flex-direction:column;gap:10px;font-size:13px;font-weight:650}.raat-form input:not([type=checkbox]),.raat-form select{width:100%;min-width:0;border:1px solid #CEFF5040;background:#11150F;border-radius:10px;padding:14px;color:#F5F6EE;font-size:16px;outline:none}.raat-form input:focus,.raat-form select:focus{border-color:#CEFF50;box-shadow:0 0 0 3px #CEFF5018}.raat-form .raat-check{display:flex;flex-direction:row;align-items:flex-start;line-height:1.7;margin:22px 0}.raat-check input{margin-top:5px;accent-color:#CEFF50;flex-shrink:0}
+.raat-button{display:inline-flex;min-height:46px;align-items:center;justify-content:center;background:#CEFF50;color:#17131b;border:1px solid #CEFF50;padding:12px 19px;border-radius:999px;cursor:pointer;font-weight:750;font-size:13px;gap:10px;text-decoration:none;transition:background .2s}.raat-button:hover{background:#FFFFFF}.raat-button.secondary{background:transparent;color:#CEFF50;border-color:#CEFF5060}.raat-button:disabled{opacity:.45;cursor:not-allowed}.raat-link{color:#CEFF50;text-decoration:underline}.raat-alert{border:1px solid #ef9292;background:#54272e;color:#fff0ef;border-radius:12px;padding:15px}.raat-notice{border:1px solid #eac580;background:#342c21;border-radius:12px;padding:15px}.raat-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:20px 0}.raat-row>label{flex:1;min-width:200px}.raat-badge{display:inline-block;border:1px solid #CEFF5050;color:#CEFF50;padding:3px 12px;border-radius:99px;font-size:11px;text-transform:uppercase;letter-spacing:.1em}.raat-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.raat-guest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.raat-guest-grid>.raat-card{margin:0}.raat-avatar{width:100%;height:230px;object-fit:cover;border-radius:12px}.raat-pass{max-width:550px}.raat-pass>img{max-width:100%;border-radius:12px}.raat-modal{position:fixed;inset:0;background:#000c;z-index:200;display:grid;place-items:start center;overflow:auto;padding:30px 16px}.raat-modal>.raat-card{max-width:850px;width:100%;margin:0}.raat-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px}.raat-photos img{width:100%;max-height:340px;object-fit:contain;background:#080A07;border-radius:12px}.raat-details>div{display:grid;grid-template-columns:160px 1fr;gap:15px;border-bottom:1px solid #ffffff15;padding:12px 0}.raat-details dt{color:#A3A3A3}.raat-details dd{overflow-wrap:anywhere}
+.raat-atmosphere{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:hidden}.raat-light-string{position:absolute;top:0;left:-2%;width:104%;height:18px;border-bottom:1px solid #CEFF5065;border-radius:0 0 50% 50%;display:flex;justify-content:space-around}.raat-light-string span{width:5px;height:9px;margin-top:16px;background:#CEFF50;border-radius:50%;box-shadow:0 0 13px 3px #f2b45877;animation:raatTwinkle 3s ease-in-out infinite alternate}.raat-lantern{position:absolute;top:110px;font-size:45px;color:#CEFF5060;animation:raatFloat 6s ease-in-out infinite}.raat-lantern.one{left:9px}.raat-lantern.two{right:9px;animation-delay:-3s}.raat-pool-glow{position:absolute;bottom:-160px;left:25%;width:50%;height:200px;background:#35c0bf17;border-radius:50%;filter:blur(55px)}
+.raat-entrance{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;gap:30px;align-items:center;justify-content:center;text-align:center;padding:25px;background:radial-gradient(ellipse at bottom,#143235,#080A07 70%);color:#F5F6EE}.raat-entrance h2{font-family:Georgia,serif;font-size:clamp(4rem,12vw,9rem);letter-spacing:-.06em;color:#CEFF50}.raat-entrance p{font-size:13px;line-height:2}.raat-enter-lights{position:absolute;top:10%;color:#CEFF50;font-size:32px;letter-spacing:.25em}.raat-diya{position:relative;font-size:90px;line-height:1;margin-top:40px;color:#cf804c}.raat-diya span{position:absolute;top:-6px;left:calc(50% - 8px);width:16px;height:28px;border-radius:75% 25% 65% 35%;background:#CEFF50;box-shadow:0 0 40px 12px #ef9c4266;animation:raatTwinkle 1.5s ease-in-out infinite alternate}
+@keyframes raatTwinkle{to{opacity:.55;transform:scale(.9)}}@keyframes raatFloat{50%{transform:translateY(10px) rotate(5deg)}}
+@media(max-width:800px){.raat-columns{grid-template-columns:1fr;gap:0}.raat-stats,.raat-guest-grid{grid-template-columns:1fr 1fr}.raat-wrap{padding:115px 18px 60px}.raat-card{padding:22px}}
+@media(max-width:520px){.raat-grid,.raat-guest-grid{grid-template-columns:1fr}.raat-stats{gap:8px}.raat-stats .raat-card{padding:18px}.raat-details>div{grid-template-columns:110px 1fr}.raat-lantern{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Restore the original STATIC appearance. */
+.raat-page {
+    background: #080A07 !important;
+    color: #F5F6EE !important;
+}
+.raat-page h1 {
+    font-family: inherit !important;
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: -.07em !important;
+}
+.raat-card {
+    background: #11160F !important;
+    border-radius: 0 !important;
+}
+.raat-atmosphere {
+    display: none !important;
+}

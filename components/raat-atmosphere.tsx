@@ -1,0 +1,1 @@
+export default function RaatAtmosphere(){return <div className="raat-atmosphere" aria-hidden="true"><div className="raat-light-string">{Array.from({length:13},(_,i)=><span key={i} style={{animationDelay:`${i*0.21}s`}} />)}</div><span className="raat-lantern one">✧</span><span className="raat-lantern two">✧</span><div className="raat-pool-glow"/></div>}

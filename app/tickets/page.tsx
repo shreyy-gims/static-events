@@ -705,6 +705,29 @@ export default function TicketsPage() {
                         </div>
                       )}
                     </label>
+                    <label className="mt-5 flex items-start gap-3 text-xs leading-6 text-white/60">
+  <input
+    required
+    type="checkbox"
+    name="rules_accepted"
+    value="yes"
+    className="mt-1.5 shrink-0 accent-[#CEFF50]"
+  />
+
+  <span>
+    I confirm that I am at least 18 years old and have read the{' '}
+    <a
+      href="/rules"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-[#CEFF50] underline underline-offset-4"
+    >
+      event rules and booking conditions
+    </a>
+    . I understand that registration does not confirm entry and
+    night-stay charges are not included in the pass.
+  </span>
+</label>
 
                     <p
                       id="photo-help"

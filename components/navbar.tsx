@@ -11,8 +11,9 @@ const navItems = [
   { href: '/', label: 'Home', number: '01' },
   { href: '/events', label: 'Events', number: '02' },
   { href: '/about', label: 'About', number: '03' },
-  { href: '/sponsors', label: 'Partners', number: '04' },
-  { href: '/rules', label: 'Rules', number: '05' },
+  { href: '/team', label: 'Team', number: '04' },
+  { href: '/sponsors', label: 'Partners', number: '05' },
+  { href: '/rules', label: 'Rules', number: '06' },
 ]
 
 export function Navbar() {

@@ -50,6 +50,7 @@ const guestSchema = z.object({
   ]),
 
   approachable: z.enum(['yes', 'no']),
+  night_stay: z.enum(['yes', 'no']),
   referral: z.string().trim().min(1).max(300),
   consent: z.literal('yes'),
 })
@@ -97,6 +98,7 @@ function respond(
 }
 
 function failure(error: unknown) {
+    console.error('[RAAT API ERROR]', error)
   if (error instanceof z.ZodError) {
     return respond(
       {

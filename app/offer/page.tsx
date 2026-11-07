@@ -18,6 +18,16 @@ const button =
 
 const STORAGE_KEY = 'static-group-offer-request-v1'
 
+const wheelColors = [
+  '#CEFF50', '#87AB37', '#E4FFAD', '#9AC13E', '#D5F982', '#789B2B',
+]
+
+function wheelSegments(odds: number[]) {
+  return OFFER_DISCOUNTS
+    .map((discount, index) => ({ discount, odds: odds[index] ?? 0 }))
+    .filter(segment => segment.odds > 0)
+}
+
 function money(value: number) {
   return `₹${value.toLocaleString('en-IN')}`
 }
@@ -31,6 +41,7 @@ export default function OfferPage() {
   const [config, setConfig] = useState<{
     base_price: number
     enabled: boolean
+    odds: number[]
   } | null>(null)
 
   const [requestKey, setRequestKey] = useState('')
@@ -129,23 +140,21 @@ export default function OfferPage() {
       }
 
       const saved = data.result as OfferResult
-      const index = OFFER_DISCOUNTS.findIndex(
-        discount => discount === saved.discount,
-      )
-
-      if (index < 0) {
-        throw new Error('Unexpected result. Contact STATIC before retrying.')
-      }
-
       if (!mounted.current) return
 
+      const odds: number[] = data.odds
+      const spinSegments = wheelSegments(odds)
+      const index = spinSegments.findIndex(segment => segment.discount === saved.discount)
+
+      setConfig(current => current ? { ...current, odds } : current)
       setResult(saved)
 
-      if (reduceMotion) {
+      if (reduceMotion || index < 0) {
+        // An existing offer may have won a prize that has since been disabled.
         finishReveal()
       } else {
-        // Segment centres are 30, 90, 150, 210, 270 and 330 degrees.
-        setRotation(1800 + 360 - (index * 60 + 30))
+        const winningAngle = (index + 0.5) * (360 / spinSegments.length)
+        setRotation(2160 - winningAngle)
         timer.current = setTimeout(finishReveal, 5600)
       }
     } catch (error) {
@@ -158,6 +167,15 @@ export default function OfferPage() {
       lock.current = false
     }
   }
+
+  const segments = wheelSegments(config?.odds ?? [])
+  const segmentAngle = 360 / Math.max(segments.length, 1)
+  const colorStops = segments.map((_, index) =>
+    `${wheelColors[index]} ${index * segmentAngle}deg ${(index + 1) * segmentAngle}deg`,
+  )
+  const wheelBackground = segments.length > 1
+    ? `conic-gradient(${colorStops.join(', ')})`
+    : segments.length === 1 ? wheelColors[0] : '#26331B'
 
   const filled = names.filter(name => name.trim().length >= 2).length
 
@@ -222,19 +240,18 @@ export default function OfferPage() {
                 }}
                 className="relative aspect-square rounded-full border-[7px] border-[#26331B] shadow-[0_0_50px_rgba(206,255,80,.12)]"
                 style={{
-                  background:
-                    'conic-gradient(#CEFF50 0deg 60deg,#87AB37 60deg 120deg,#E4FFAD 120deg 180deg,#9AC13E 180deg 240deg,#D5F982 240deg 300deg,#789B2B 300deg 360deg)',
+                  background: wheelBackground,
                   transform: `rotate(${rotation}deg)`,
                   transition: reduceMotion
                     ? 'none'
                     : 'transform 5s cubic-bezier(.12,.75,.12,1)',
                 }}
               >
-                {OFFER_DISCOUNTS.map((discount, index) => (
+                {segments.map(({ discount }, index) => (
                   <div
                     key={discount}
                     className="absolute inset-0"
-                    style={{ transform: `rotate(${index * 60 + 30}deg)` }}
+                    style={{ transform: `rotate(${(index + 0.5) * segmentAngle}deg)` }}
                   >
                     <div className="absolute left-1/2 top-[12%] -translate-x-1/2 text-center text-[#101509]">
                       <p className="text-xl font-black">−₹{discount}</p>
@@ -252,7 +269,10 @@ export default function OfferPage() {
             </div>
 
             <p className="text-center text-xs leading-6 text-white/45">
-              Six possible discounts. Each has an equal 1-in-6 chance.
+              {config && segments.map(({ discount, odds }) =>
+                `₹${discount} off: ${odds}%`,
+              ).join(' · ')}
+              {config && <br />}
               No payment is required to spin.
             </p>
 

@@ -41,6 +41,41 @@ const offerResultSchema = z.object({
   price_per_person: z.number().int(),
   group_total: z.number().int(),
 })
+const oddsSchema = z
+  .array(z.number().int().min(0).max(100))
+  .length(OFFER_DISCOUNTS.length)
+  .refine(odds => odds.reduce((sum, odds) => sum + odds, 0) === 100, {
+    message: 'Wheel odds must add up to 100%.',
+  })
+
+async function loadOfferSettings() {
+  const { data, error } = await database()
+    .from('raat_settings')
+    .select('price, booking_open, offer_odds')
+    .eq('id', 1)
+    .single()
+
+  if (error) {
+    logDatabaseError('Loading offer settings failed', error)
+    throw new Error('SETTINGS_FAILED')
+  }
+
+  if (!data) throw new Error('SETTINGS_NOT_FOUND')
+
+  const odds = oddsSchema.safeParse(data.offer_odds)
+  if (!odds.success) throw new Error('INVALID_SAVED_OFFER_ODDS')
+
+  const price = Number(data.price)
+  if (!Number.isSafeInteger(price) || price < 0) {
+    throw new Error('INVALID_SETTINGS_PRICE')
+  }
+
+  return {
+    base_price: price,
+    enabled: data.booking_open === true && price > 200,
+    odds: odds.data,
+  }
+}
 
 type DatabaseError = {
   code?: string
@@ -167,31 +202,7 @@ export async function GET(request: NextRequest) {
     const action = request.nextUrl.searchParams.get('action')
 
     if (action === 'config') {
-      const { data, error } = await database()
-        .from('raat_settings')
-        .select('price, booking_open')
-        .eq('id', 1)
-        .single()
-
-      if (error) {
-        logDatabaseError('Loading offer settings failed', error)
-        throw new Error('SETTINGS_FAILED')
-      }
-
-      if (!data) {
-        throw new Error('SETTINGS_NOT_FOUND')
-      }
-
-      const price = Number(data.price)
-
-      if (!Number.isSafeInteger(price) || price < 0) {
-        throw new Error('INVALID_SETTINGS_PRICE')
-      }
-
-      return respond({
-        base_price: price,
-        enabled: data.booking_open === true && price > 200,
-      })
+      return respond(await loadOfferSettings())
     }
 
     if (action !== 'admin') {
@@ -234,8 +245,30 @@ export async function POST(request: NextRequest) {
 
     const action = request.nextUrl.searchParams.get('action')
 
-    if (action !== 'spin' && action !== 'status') {
+    if (action !== 'spin' && action !== 'status' && action !== 'odds') {
       return respond({ error: 'Unknown request.' }, 404)
+    }
+
+    if (action === 'odds') {
+      if (!(await hasAdminSession())) {
+        return respond({ error: 'Please sign in as admin.' }, 401)
+      }
+
+      const { odds } = z.object({ odds: oddsSchema }).parse(await readJson(request))
+
+      const { error } = await database()
+        .from('raat_settings')
+        .update({ offer_odds: odds })
+        .eq('id', 1)
+        .select('id')
+        .single()
+
+      if (error) {
+        logDatabaseError('Saving wheel odds failed', error)
+        throw new Error('OFFER_ODDS_UPDATE_FAILED')
+      }
+
+      return respond({ odds })
     }
 
     if (action === 'status') {
@@ -299,17 +332,17 @@ export async function POST(request: NextRequest) {
       .update(`static-group-offer:${ip}`)
       .digest('hex')
 
-    
+    const { odds } = await loadOfferSettings()
+    const roll = randomInt(100)
+    let cumulative = 0
 
-    // The server chooses the discount, never the browser.
-    const discount =
-      OFFER_DISCOUNTS[randomInt(OFFER_DISCOUNTS.length)]
+    const discount = OFFER_DISCOUNTS.find((_, index) => {
+      cumulative += odds[index] ?? 0
+      return roll < cumulative
+    })
 
-    if (
-      typeof discount !== 'number' ||
-      ![25, 50, 75, 100, 150, 200].includes(discount)
-    ) {
-      throw new Error('INVALID_OFFER_DISCOUNT_CONFIGURATION')
+    if (discount === undefined) {
+      throw new Error('OFFER_ODDS_SELECTION_FAILED')
     }
 
     const { data, error } = await database().rpc(
@@ -325,6 +358,13 @@ export async function POST(request: NextRequest) {
     )
 
     if (error) {
+      if (error.code === '23505') {
+        return respond(
+          { error: 'An offer already exists for this request or phone number. Contact STATIC for help.' },
+          409,
+        )
+      }
+
       logDatabaseError('Database claim failed', error)
       throw new Error('CLAIM_FAILED')
     }
@@ -397,7 +437,7 @@ export async function POST(request: NextRequest) {
       throw new Error('CLAIM_RETURNED_INVALID_PRICING')
     }
 
-    return respond({ result })
+    return respond({ result, odds })
   } catch (error) {
     return failure(error)
   }

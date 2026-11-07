@@ -37,6 +37,7 @@ import {
 import { raatRequest } from '@/lib/raat-browser'
 import { AdminGroupOffers } from '@/components/admin-group-offers'
 import type { EventSettings, Guest } from '@/lib/raat-types'
+import { AdminWheelOdds } from '@/components/admin-wheel-odds'
 
 type Operation = 'generate' | 'paid' | 'unpaid' | 'revoke'
 type Tab = 'guests' | 'entry' | 'settings' | 'offers'
@@ -1040,10 +1041,11 @@ export default function AdminPage() {
 
             {/* Group offers */}
             {tab === 'offers' && (
-              <section className="admin-appear">
-                <AdminGroupOffers />
-              </section>
-            )}
+  <section className="admin-appear space-y-6">
+    <AdminWheelOdds />
+    <AdminGroupOffers />
+  </section>
+)}
 
             {/* Settings */}
             {tab === 'settings' && (

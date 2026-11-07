@@ -35,10 +35,11 @@ import {
 } from 'lucide-react'
 
 import { raatRequest } from '@/lib/raat-browser'
+import { AdminGroupOffers } from '@/components/admin-group-offers'
 import type { EventSettings, Guest } from '@/lib/raat-types'
 
 type Operation = 'generate' | 'paid' | 'unpaid' | 'revoke'
-type Tab = 'guests' | 'entry' | 'settings'
+type Tab = 'guests' | 'entry' | 'settings' | 'offers'
 type GuestFilter = 'all' | 'paid' | 'unpaid' | 'entered' | 'not-entered'
 type StayFilter = 'all' | 'yes' | 'no' | 'unanswered'
 
@@ -548,6 +549,11 @@ export default function AdminPage() {
     { id: 'guests' as const, label: 'Guests', icon: LayoutGrid },
     { id: 'entry' as const, label: 'Entry desk', icon: QrCode },
     { id: 'settings' as const, label: 'Event settings', icon: Settings2 },
+    {
+  id: 'offers' as const,
+  label: 'Group offers',
+  icon: Users,
+},
   ]
 
   const selectedDetails = selected
@@ -1029,6 +1035,13 @@ export default function AdminPage() {
                     Night-stay charges are not included in the pass.
                   </div>
                 </aside>
+              </section>
+            )}
+
+            {/* Group offers */}
+            {tab === 'offers' && (
+              <section className="admin-appear">
+                <AdminGroupOffers />
               </section>
             )}
 
